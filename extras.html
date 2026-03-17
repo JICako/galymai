@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="kz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GALYM AI — Дополнительное</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+
+/* ── АЙНЫМАЛЫЛАР ── */
+:root {
+  --blue:    #1E6BE6;
+  --violet:  #6B4DE6;
+  --sky:     #4AB5F5;
+  --grad:    linear-gradient(135deg, #1E6BE6 0%, #6B4DE6 100%);
+  --grad-r:  linear-gradient(135deg, #6B4DE6 0%, #1E6BE6 100%);
+  --grad-soft: linear-gradient(135deg, rgba(30,107,230,0.09), rgba(107,77,230,0.07));
+  --glow:    rgba(30,107,230,0.10);
+  --bg-overlay:     rgba(5,8,22,0.82);
+  --surface:        rgba(13,20,40,0.88);
+  --surface-hover:  rgba(18,28,55,0.96);
+  --surface-strong: rgba(15,23,46,0.95);
+  --border:         rgba(74,181,245,0.12);
+  --border-strong:  rgba(74,181,245,0.28);
+  --text:           #E8EDF8;
+  --text-muted:     #ffffff;
+  --text-light:     #4A5A80;
+  --shadow-card:    0 8px 32px rgba(0,0,0,0.30);
+  --shadow-hover:   0 20px 56px rgba(0,0,0,0.45);
+  --header-bg:      rgba(5,10,28,0.85);
+  --footer-bg:      rgba(5,10,28,0.93);
+  --input-bg:       rgba(10,16,38,0.80);
+  --mobile-nav-bg:  #060d20;
+  --font-display: 'Syne', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+  --radius:   16px;
+  --radius-sm:10px;
+  --transition: 0.28s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ── RESET ── */
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+body { font-family:var(--font-body); color:var(--text); line-height:1.65; overflow-x:hidden; min-height:100vh; }
+::-webkit-scrollbar { width:4px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:var(--grad); border-radius:2px; }
+
+/* ── ФОНДЫҚ СУРЕТ ── */
+.site-bg { position:fixed; inset:0; z-index:-2; background-size:cover; background-position:center; background-repeat:no-repeat; background-attachment:fixed; }
+.site-bg-overlay { position:fixed; inset:0; z-index:-1; background:var(--bg-overlay); }
+@media(max-width:768px){ .site-bg { background-attachment:scroll; } }
+
+/* ── HEADER ── */
+header { position:fixed; top:0; left:0; right:0; z-index:1000; padding:13px 0; transition:var(--transition); }
+header.scrolled { background:var(--header-bg); backdrop-filter:blur(22px); -webkit-backdrop-filter:blur(22px); border-bottom:1px solid var(--border); box-shadow:0 2px 20px rgba(0,0,0,0.08); padding:9px 0; }
+.header-inner { max-width:1280px; margin:0 auto; padding:0 40px; display:flex; align-items:center; justify-content:space-between; gap:14px; }
+.logo { display:flex; align-items:center; gap:9px; text-decoration:none; flex-shrink:0; }
+.logo-img { width:36px; height:36px; border-radius:9px; object-fit:cover; box-shadow:0 2px 10px rgba(30,107,230,0.20); }
+.logo-text { font-family:var(--font-display); font-size:1.3rem; font-weight:800; letter-spacing:-0.03em; background:var(--grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; line-height:1; }
+.logo-text span { opacity:0.7; }
+nav { display:flex; align-items:center; gap:1px; }
+nav a { color:var(--text-muted); text-decoration:none; font-size:0.83rem; font-weight:500; padding:6px 10px; border-radius:var(--radius-sm); transition:var(--transition); white-space:nowrap; position:relative; }
+nav a:hover { color:var(--blue); background:var(--glow); }
+nav a.active { color:var(--blue); background:rgba(30,107,230,0.08); }
+nav a.active::after { content:''; position:absolute; bottom:4px; left:50%; transform:translateX(-50%); width:4px; height:4px; border-radius:50%; background:var(--blue); }
+.header-controls { display:flex; align-items:center; gap:9px; flex-shrink:0; }
+
+/* ── БАТЫРМАЛАР ── */
+.btn { display:inline-flex; align-items:center; gap:6px; padding:9px 20px; border-radius:var(--radius-sm); font-family:var(--font-body); font-size:0.875rem; font-weight:600; text-decoration:none; cursor:pointer; border:none; transition:var(--transition); }
+.btn-primary { background:var(--grad); color:#fff; box-shadow:0 4px 16px rgba(30,107,230,0.26); }
+.btn-primary:hover { background:linear-gradient(135deg,#1a5fd4,#5c3fd4); transform:translateY(-2px); box-shadow:0 8px 28px rgba(30,107,230,0.34); }
+.btn-outline { background:var(--surface); color:var(--blue); border:1.5px solid var(--border-strong); backdrop-filter:blur(8px); }
+.btn-outline:hover { background:var(--glow); transform:translateY(-2px); border-color:var(--blue); }
+.btn-large { padding:14px 32px; font-size:1rem; border-radius:var(--radius); }
+
+/* ── BURGER ── */
+.burger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:4px; background:none; border:none; }
+.burger span { display:block; width:24px; height:2px; background:var(--text); border-radius:2px; transition:var(--transition); }
+.burger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+.burger.open span:nth-child(2) { opacity:0; transform:scaleX(0); }
+.burger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+.mobile-nav { display:none; position:fixed; inset:0; background:var(--mobile-nav-bg); z-index:999; flex-direction:column; align-items:center; justify-content:center; gap:5px; transform:translateX(100%); transition:transform 0.4s cubic-bezier(0.4,0,0.2,1); }
+.mobile-nav.open { transform:translateX(0); }
+.mobile-nav a { font-family:var(--font-display); font-size:1.8rem; font-weight:700; color:var(--text-muted); text-decoration:none; padding:6px 0; transition:color 0.2s; }
+.mobile-nav a:hover { color:var(--blue); }
+
+/* ── LAYOUT ── */
+section { padding:92px 0; }
+.container { max-width:1280px; margin:0 auto; padding:0 40px; }
+.section-label { font-size:0.70rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; background:var(--grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:13px; display:flex; align-items:center; gap:9px; }
+.section-label::before { content:''; display:block; width:16px; height:2px; background:var(--grad); border-radius:1px; flex-shrink:0; -webkit-text-fill-color:initial; }
+h1,h2,h3,h4 { font-family:var(--font-display); font-weight:700; line-height:1.15; color:var(--text); }
+h1 { font-size:clamp(2.2rem,5vw,4.4rem); letter-spacing:-0.03em; }
+h2 { font-size:clamp(1.65rem,3vw,2.6rem); letter-spacing:-0.02em; }
+h3 { font-size:1.28rem; }
+h4 { font-size:1.02rem; }
+.text-accent { background:var(--grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+
+/* ── PAGE HERO (ішкі беттер) ── */
+.page-hero { padding:130px 0 64px; position:relative; overflow:hidden; }
+.page-hero-bg { position:absolute; inset:0; background:radial-gradient(ellipse 60% 60% at 50% 0%,rgba(30,107,230,0.06) 0%,transparent 70%); }
+.page-hero h1 { font-size:clamp(1.8rem,3.6vw,3rem); margin-bottom:11px; }
+.page-hero p { color:var(--text-muted); max-width:540px; font-size:0.98rem; }
+
+/* ── CTA БЛОГЫ ── */
+.cta-block { background:var(--surface); border:1px solid var(--border); border-radius:22px; padding:52px; text-align:center; backdrop-filter:blur(10px); box-shadow:var(--shadow-card); }
+
+/* ── FOOTER ── */
+footer { background:var(--footer-bg); border-top:1px solid var(--border); padding:48px 0 24px; margin-top:40px; backdrop-filter:blur(12px); }
+.footer-inner { display:grid; grid-template-columns:2fr 1fr 1fr; gap:48px; margin-bottom:28px; }
+.footer-brand p { color:var(--text-muted); font-size:0.86rem; margin-top:11px; max-width:240px; }
+.footer-col h4 { font-size:0.76rem; font-weight:700; text-transform:uppercase; letter-spacing:0.10em; margin-bottom:14px; color:var(--text-muted); }
+.footer-col a { display:block; color:var(--text-muted); text-decoration:none; font-size:0.86rem; margin-bottom:8px; transition:color 0.2s; }
+.footer-col a:hover { color:var(--blue); }
+.footer-bottom { border-top:1px solid var(--border); padding-top:18px; display:flex; justify-content:space-between; align-items:center; color:var(--text-muted); font-size:0.74rem; }
+
+/* ── REVEAL АНИМАЦИЯ ── */
+.reveal { opacity:0; transform:translateY(24px); transition:opacity 0.60s ease, transform 0.60s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+.reveal-delay-1 { transition-delay:0.10s; }
+.reveal-delay-2 { transition-delay:0.20s; }
+.reveal-delay-3 { transition-delay:0.30s; }
+
+/* ── MODAL (галерея + бейне) ── */
+.gallery-overlay { display:none; position:fixed; inset:0; z-index:2000; background:rgba(0,0,0,0.78); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:16px; }
+.gallery-overlay.open { display:flex; animation:fadeIn 0.22s ease both; }
+@keyframes fadeIn { from{opacity:0}to{opacity:1} }
+.gallery-modal { background:var(--surface-strong); border:1px solid var(--border); border-radius:22px; box-shadow:0 32px 100px rgba(0,0,0,0.35); width:100%; max-width:880px; max-height:90vh; overflow:hidden; display:flex; flex-direction:column; animation:slideUp 0.28s cubic-bezier(0.4,0,0.2,1) both; }
+@keyframes slideUp { from{transform:translateY(35px);opacity:0}to{transform:translateY(0);opacity:1} }
+.gallery-header { padding:22px 26px 16px; border-bottom:1px solid var(--border); display:flex; align-items:flex-start; justify-content:space-between; gap:14px; flex-shrink:0; }
+.gallery-date { font-size:0.74rem; color:var(--blue); font-weight:600; margin-bottom:4px; }
+.gallery-header h2 { font-size:1.25rem; margin-bottom:6px; }
+.gallery-header p { color:var(--text-muted); font-size:0.86rem; max-width:560px; line-height:1.5; }
+.gallery-close { width:34px; height:34px; border-radius:9px; background:var(--surface); border:1px solid var(--border); cursor:pointer; display:flex; align-items:center; justify-content:center; color:var(--text-muted); font-size:1.1rem; flex-shrink:0; transition:var(--transition); }
+.gallery-close:hover { background:var(--glow); color:var(--text); }
+.gallery-body { overflow-y:auto; padding:20px 26px 26px; flex:1; }
+.gallery-main-photo { width:100%; aspect-ratio:16/9; border-radius:12px; overflow:hidden; margin-bottom:12px; background:var(--surface); border:1px solid var(--border); }
+.gallery-main-photo img { width:100%; height:100%; object-fit:cover; display:block; }
+.gallery-nav { display:flex; align-items:center; justify-content:center; gap:10px; margin:10px 0 14px; }
+.gallery-nav-btn { width:36px; height:36px; border-radius:50%; background:var(--surface); border:1px solid var(--border); cursor:pointer; display:flex; align-items:center; justify-content:center; color:var(--text-muted); transition:var(--transition); }
+.gallery-nav-btn:hover { background:var(--glow); border-color:var(--blue); color:var(--blue); }
+.gallery-nav-btn svg { width:14px; height:14px; }
+.gallery-count { text-align:center; font-size:0.75rem; color:var(--text-muted); }
+.gallery-thumbs { display:grid; grid-template-columns:repeat(auto-fill,minmax(105px,1fr)); gap:7px; }
+.gallery-thumb { aspect-ratio:4/3; border-radius:9px; overflow:hidden; cursor:pointer; border:2px solid transparent; transition:var(--transition); }
+.gallery-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.gallery-thumb:hover,.gallery-thumb.active { border-color:var(--blue); }
+.video-player-overlay { display:none; position:fixed; inset:0; z-index:3000; background:rgba(0,0,0,0.92); align-items:center; justify-content:center; padding:20px; }
+.video-player-overlay.open { display:flex; animation:fadeIn 0.2s ease both; }
+.video-player-modal { width:100%; max-width:960px; background:#000; border-radius:18px; overflow:hidden; box-shadow:0 40px 120px rgba(0,0,0,0.8); }
+.video-player-top { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; background:rgba(255,255,255,0.06); border-bottom:1px solid rgba(255,255,255,0.08); }
+.video-player-top span { color:rgba(255,255,255,0.6); font-size:.82rem; }
+.video-player-close { width:32px; height:32px; border-radius:8px; background:rgba(255,255,255,0.10); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.7); font-size:1.1rem; transition:background 0.2s; }
+.video-player-close:hover { background:rgba(255,255,255,0.20); color:#fff; }
+.video-player-frame { position:relative; width:100%; padding-bottom:56.25%; background:#000; }
+.video-player-frame iframe { position:absolute; inset:0; width:100%; height:100%; border:none; }
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  .footer-inner { grid-template-columns:1fr 1fr; }
+}
+@media(max-width:768px){
+  .container { padding:0 18px; }
+  .header-inner { padding:0 18px; }
+  nav,.header-cta,.header-controls { display:none; }
+  .burger { display:flex; }
+  .mobile-nav { display:flex; }
+  section { padding:52px 0; }
+  .page-hero { padding:92px 0 48px; }
+  .footer-inner { grid-template-columns:1fr; gap:24px; }
+  .footer-bottom { flex-direction:column; gap:5px; text-align:center; }
+  .gallery-thumbs { grid-template-columns:repeat(auto-fill,minmax(78px,1fr)); }
+  .gallery-header { padding:16px; }
+  .gallery-body { padding:14px 16px 18px; }
+}
+</style>
+  <style>
+    #passwordGate {
+      position: fixed; inset: 0; z-index: 9999;
+      display: flex; align-items: center; justify-content: center; padding: 20px;
+      background: var(--bg-overlay, rgba(235,241,255,0.97));
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    }
+    #passwordGate.hidden { display: none; }
+    .pw-box {
+      background: var(--surface, rgba(255,255,255,0.96));
+      border: 1.5px solid var(--border, rgba(30,107,230,0.15));
+      border-radius: 22px; padding: 44px 40px; text-align: center;
+      max-width: 420px; width: 100%;
+      box-shadow: 0 24px 80px rgba(30,107,230,0.18);
+    }
+    .pw-logo { display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:28px; }
+    .pw-logo img { width:44px; height:44px; border-radius:11px; object-fit:cover; box-shadow:0 2px 12px rgba(30,107,230,0.22); }
+    .pw-logo-text { font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:800; letter-spacing:-0.03em; background:linear-gradient(135deg,#1E6BE6,#6B4DE6); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .pw-icon { font-size:2.8rem; margin-bottom:14px; }
+    .pw-box h2 { font-family:'Syne',sans-serif; font-size:1.35rem; font-weight:700; color:var(--text,#0F1A3E); margin-bottom:8px; }
+    .pw-box p { color:var(--text-muted,#5A6A8A); font-size:0.875rem; margin-bottom:26px; line-height:1.55; }
+    .pw-field { position:relative; margin-bottom:14px; }
+    .pw-field input {
+      width:100%; background:var(--input-bg,rgba(240,244,255,0.8)); border:1.5px solid var(--border,rgba(30,107,230,0.13));
+      border-radius:12px; padding:13px 46px 13px 18px; font-size:1rem; font-family:'DM Sans',sans-serif;
+      color:var(--text,#0F1A3E); outline:none; transition:border-color .25s,box-shadow .25s;
+      text-align:center; letter-spacing:0.12em; box-sizing:border-box;
+    }
+    .pw-field input:focus { border-color:#1E6BE6; box-shadow:0 0 0 3px rgba(30,107,230,0.10); }
+    .pw-eye {
+      position:absolute; right:12px; top:50%; transform:translateY(-50%);
+      background:none; border:none; cursor:pointer; color:var(--text-muted,#5A6A8A);
+      font-size:1.1rem; padding:4px; transition:color .2s;
+    }
+    .pw-eye:hover { color:#1E6BE6; }
+    .pw-error { color:#DC2626; font-size:.8rem; margin-bottom:12px; min-height:18px; opacity:0; transition:opacity .2s; }
+    .pw-error.show { opacity:1; }
+    .pw-btn {
+      width:100%; padding:13px; background:linear-gradient(135deg,#1E6BE6,#6B4DE6);
+      color:#fff; border:none; border-radius:12px; font-family:'DM Sans',sans-serif;
+      font-size:.95rem; font-weight:700; cursor:pointer; transition:all .25s;
+      box-shadow:0 4px 16px rgba(30,107,230,0.30);
+    }
+    .pw-btn:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(30,107,230,0.38); }
+    .pw-hint { margin-top:18px; font-size:.74rem; color:var(--text-light,#8A9ABF); }
+    @keyframes shake {
+      0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)}
+      40%{transform:translateX(8px)} 60%{transform:translateX(-6px)} 80%{transform:translateX(6px)}
+    }
+    .pw-box.shake { animation:shake .4s ease; }
+  </style>
+</head>
+<body>
+
+<!-- ═══ PASSWORD GATE ═══ -->
+<div id="passwordGate">
+  <div class="pw-box" id="pwBox">
+    <div class="pw-logo">
+      <img src="logo.jpg" alt="GALYM AI">
+      <span class="pw-logo-text">GALYM AI</span>
+    </div>
+    <div class="pw-icon">🔐</div>
+    <h2>Закрытый раздел</h2>
+    <p>Эта страница доступна только администраторам.<br>Введите пароль для входа.</p>
+    <div class="pw-field">
+      <input type="password" id="pwInput" placeholder="• • • • • • • • •" autocomplete="off" autofocus>
+      <button class="pw-eye" id="pwEye" onclick="togglePwVis()" tabindex="-1">👁</button>
+    </div>
+    <div class="pw-error" id="pwError">Неверный пароль. Попробуйте ещё раз.</div>
+    <button class="pw-btn" onclick="checkPw()">Войти →</button>
+    <p class="pw-hint">Только для сотрудников GALYM AI</p>
+  </div>
+</div>
+
+<!-- ═══ MAIN CONTENT ═══ -->
+<div id="mainContent" style="display:none">
+
+<div class="site-bg"></div>
+<div class="site-bg-overlay"></div>
+
+<!-- VIDEO PLAYER MODAL -->
+<div class="video-player-overlay" id="videoPlayerOverlay">
+  <div class="video-player-modal">
+    <div class="video-player-top">
+      <span>GALYM AI — видео</span>
+      <button class="video-player-close" id="videoPlayerClose">✕</button>
+    </div>
+    <div class="video-player-frame">
+      <iframe id="videoIframe" src="" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- GALLERY MODAL -->
+<div class="gallery-overlay" id="galleryOverlay">
+  <div class="gallery-modal">
+    <div class="gallery-header">
+      <div class="gallery-header-text">
+        <div class="gallery-date" id="galleryDate"></div>
+        <h2 id="galleryTitle"></h2>
+        <p id="galleryText"></p>
+      </div>
+      <button class="gallery-close" id="galleryCloseBtn">✕</button>
+    </div>
+    <div class="gallery-body">
+      <div id="galleryVideos"></div>
+      <div id="galleryPhotoSection">
+        <div class="gallery-main-photo"><img id="galleryMainImg" src="" alt=""></div>
+        <div class="gallery-nav">
+          <button class="gallery-nav-btn" id="galleryPrevBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <span class="gallery-count" id="galleryCount"></span>
+          <button class="gallery-nav-btn" id="galleryNextBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+        </div>
+        <div class="gallery-thumbs" id="galleryThumbs"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <img src="logo.jpg" alt="GALYM AI" class="logo-img">
+      <span class="logo-text">GALYM<span>AI</span></span>
+    </a>
+    <nav>
+      <a href="index.html">Главная</a>
+      <a href="about.html">О нас</a>
+      <a href="courses.html">Курсы</a>
+      <a href="program.html">Программа</a>
+      <a href="teachers.html">Преподаватели</a>
+      <a href="news.html">Новости</a>
+      <a href="extras.html"   style="color:var(--blue);font-weight:700">🔐 ЖИ-база</a>
+      <a href="contacts.html">Контакты</a>
+      <a href="#" onclick="openFeedbackForm(event)">Обратная связь</a>
+    </nav>
+    
+    <button class="burger" aria-label="Меню"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mobile-nav">
+  <a href="index.html">Главная</a>
+  <a href="about.html">О нас</a>
+  <a href="courses.html">Курсы</a>
+  <a href="program.html">Программа</a>
+  <a href="teachers.html">Преподаватели</a>
+  <a href="news.html">Новости</a>
+  <a href="contacts.html">Контакты</a>
+  </div>
+
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="container" style="position:relative">
+    <div class="section-label">🔐 Администратор</div>
+    <h1>ЖИ-инструменттер <span class="text-accent">педагогтарға</span></h1>
+    <p>Оқыту, бағалау және шығармашылыққа арналған ЖИ-инструменттердің толық жинағы</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <!-- Filter tabs -->
+    <div class="filter-tabs reveal">
+      <button class="filter-tab active" data-filter="all">Барлығы / Все</button>
+      <button class="filter-tab" data-filter="text">💬 Чат / Мәтін</button>
+      <button class="filter-tab" data-filter="edu">🏫 Білім беру</button>
+      <button class="filter-tab" data-filter="assess">📊 Бағалау</button>
+      <button class="filter-tab" data-filter="feedback">⭐ Кері байланыс</button>
+      <button class="filter-tab" data-filter="image">🎨 Суреттер</button>
+      <button class="filter-tab" data-filter="video">🎬 Бейне / Дауыс</button>
+      <button class="filter-tab" data-filter="code">💻 Код</button>
+      <button class="filter-tab" data-filter="interactive">🎮 Интерактив</button>
+      <button class="filter-tab" data-filter="free">✅ Тегін / Бесплатные</button>
+    </div>
+
+    <div class="ai-tools-grid" id="aiToolsGrid">
+      <!-- filled by script.js renderAiTools() -->
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="container">
+    <div class="cta-block reveal" style="text-align:center">
+      <div class="section-label" style="justify-content:center">📚</div>
+      <h2 style="margin-bottom:14px">Хочешь научиться работать с ИИ?</h2>
+      <p style="color:var(--text-muted);max-width:460px;margin:0 auto 28px">На курсе «Искусственный интеллект» мы разберём все эти инструменты изнутри.</p>
+      <a href="courses.html" class="btn btn-primary btn-large">Смотреть курсы</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">
+          <img src="logo.jpg" alt="GALYM AI" class="logo-img">
+          <span class="logo-text">GALYM<span>AI</span></span>
+        </a>
+        <p>Образовательный клуб нового поколения в Актобе.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Навигация</h4>
+        <a href="about.html">О нас</a>
+        <a href="courses.html">Курсы</a>
+        <a href="news.html">Новости</a>
+        <a href="contacts.html">Контакты</a>
+      </div>
+      <div class="footer-col">
+        <h4>Контакты</h4>
+        <a href="mailto:info@galym-ai.kz">info@galym-ai.kz</a>
+        <a href="tel:+77001234567">+7 700 123 45 67</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 GALYM AI. Все права защищены.</span>
+      <span>Актобе, Казахстан</span>
+    </div>
+  </div>
+</footer>
+
+</div><!-- /#mainContent -->
+
+<script>
+// ─── PASSWORD GATE ───────────────────────────────────────
+(function() {
+  const PASS = atob('YWRtaW4xMjM='); // admin123
+  const SK   = 'galym_admin_v1';
+
+  if (sessionStorage.getItem(SK) === '1') { unlock(); return; }
+
+  function unlock() {
+    document.getElementById('passwordGate').classList.add('hidden');
+    document.getElementById('mainContent').style.display = 'block';
+    sessionStorage.setItem(SK, '1');
+  }
+
+  window.checkPw = function() {
+    const val = document.getElementById('pwInput').value;
+    const err = document.getElementById('pwError');
+    if (val === PASS) {
+      err.classList.remove('show');
+      unlock();
+    } else {
+      err.classList.add('show');
+      const box = document.getElementById('pwBox');
+      box.classList.remove('shake');
+      void box.offsetWidth;
+      box.classList.add('shake');
+      document.getElementById('pwInput').value = '';
+      document.getElementById('pwInput').focus();
+    }
+  };
+
+  window.togglePwVis = function() {
+    const inp = document.getElementById('pwInput');
+    const eye = document.getElementById('pwEye');
+    inp.type = inp.type === 'password' ? 'text' : 'password';
+    eye.textContent = inp.type === 'password' ? '👁' : '🙈';
+  };
+
+  document.getElementById('pwInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') checkPw();
+  });
+})();
+
+// ─── CATEGORY FILTER ─────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.filter-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const f = tab.dataset.filter;
+      document.querySelectorAll('.ai-tool-card').forEach(card => {
+        if (f === 'all') { card.style.display = ''; return; }
+        if (f === 'free') { card.style.display = card.dataset.free === 'true' ? '' : 'none'; return; }
+        card.style.display = card.dataset.cats === f ? '' : 'none';
+      });
+    });
+  });
+});
+</script>
+
+<script src="js/script.js"></script>
+</body>
+</html>

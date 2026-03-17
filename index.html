@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="kz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GALYM AI — Басты бет</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+
+/* ── АЙНЫМАЛЫЛАР ── */
+:root {
+  --blue:    #1E6BE6;
+  --violet:  #6B4DE6;
+  --sky:     #4AB5F5;
+  --grad:    linear-gradient(135deg, #1E6BE6 0%, #6B4DE6 100%);
+  --grad-r:  linear-gradient(135deg, #6B4DE6 0%, #1E6BE6 100%);
+  --grad-soft: linear-gradient(135deg, rgba(30,107,230,0.09), rgba(107,77,230,0.07));
+  --glow:    rgba(30,107,230,0.10);
+  --bg-overlay:     rgba(5,8,22,0.82);
+  --surface:        rgba(13,20,40,0.88);
+  --surface-hover:  rgba(18,28,55,0.96);
+  --surface-strong: rgba(15,23,46,0.95);
+  --border:         rgba(74,181,245,0.12);
+  --border-strong:  rgba(74,181,245,0.28);
+  --text:           #E8EDF8;
+  --text-muted:     #ffffff;
+  --text-light:     #4A5A80;
+  --shadow-card:    0 8px 32px rgba(0,0,0,0.30);
+  --shadow-hover:   0 20px 56px rgba(0,0,0,0.45);
+  --header-bg:      rgba(5,10,28,0.85);
+  --footer-bg:      rgba(5,10,28,0.93);
+  --input-bg:       rgba(10,16,38,0.80);
+  --mobile-nav-bg:  #060d20;
+  --font-display: 'Syne', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+  --radius:   16px;
+  --radius-sm:10px;
+  --transition: 0.28s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ── RESET ── */
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+body { font-family:var(--font-body); color:var(--text); line-height:1.65; overflow-x:hidden; min-height:100vh; }
+::-webkit-scrollbar { width:4px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:var(--grad); border-radius:2px; }
+
+/* ── ФОНДЫҚ СУРЕТ ── */
+.site-bg { position:fixed; inset:0; z-index:-2; background-size:cover; background-position:center; background-repeat:no-repeat; background-attachment:fixed; }
+.site-bg-overlay { position:fixed; inset:0; z-index:-1; background:var(--bg-overlay); }
+@media(max-width:768px){ .site-bg { background-attachment:scroll; } }
+
+/* ── HEADER ── */
+header { position:fixed; top:0; left:0; right:0; z-index:1000; padding:13px 0; transition:var(--transition); }
+header.scrolled { background:var(--header-bg); backdrop-filter:blur(22px); -webkit-backdrop-filter:blur(22px); border-bottom:1px solid var(--border); box-shadow:0 2px 20px rgba(0,0,0,0.08); padding:9px 0; }
+.header-inner { max-width:1280px; margin:0 auto; padding:0 40px; display:flex; align-items:center; justify-content:space-between; gap:14px; }
+.logo { display:flex; align-items:center; gap:9px; text-decoration:none; flex-shrink:0; }
+.logo-img { width:36px; height:36px; border-radius:9px; object-fit:cover; box-shadow:0 2px 10px rgba(30,107,230,0.20); }
+.logo-text { font-family:var(--font-display); font-size:1.3rem; font-weight:800; letter-spacing:-0.03em; background:var(--grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; line-height:1; }
+.logo-text span { opacity:0.7; }
+nav { display:flex; align-items:center; gap:1px; }
+nav a { color:var(--text-muted); text-decoration:none; font-size:0.83rem; font-weight:500; padding:6px 10px; border-radius:var(--radius-sm); transition:var(--transition); white-space:nowrap; position:relative; }
+nav a:hover { color:var(--blue); background:var(--glow); }
+nav a.active { color:var(--blue); background:rgba(30,107,230,0.08); }
+nav a.active::after { content:''; position:absolute; bottom:4px; left:50%; transform:translateX(-50%); width:4px; height:4px; border-radius:50%; background:var(--blue); }
+.header-controls { display:flex; align-items:center; gap:9px; flex-shrink:0; }
+
+/* ── БАТЫРМАЛАР ── */
+.btn { display:inline-flex; align-items:center; gap:6px; padding:9px 20px; border-radius:var(--radius-sm); font-family:var(--font-body); font-size:0.875rem; font-weight:600; text-decoration:none; cursor:pointer; border:none; transition:var(--transition); }
+.btn-primary { background:var(--grad); color:#fff; box-shadow:0 4px 16px rgba(30,107,230,0.26); }
+.btn-primary:hover { background:linear-gradient(135deg,#1a5fd4,#5c3fd4); transform:translateY(-2px); box-shadow:0 8px 28px rgba(30,107,230,0.34); }
+.btn-outline { background:var(--surface); color:var(--blue); border:1.5px solid var(--border-strong); backdrop-filter:blur(8px); }
+.btn-outline:hover { background:var(--glow); transform:translateY(-2px); border-color:var(--blue); }
+.btn-large { padding:14px 32px; font-size:1rem; border-radius:var(--radius); }
+
+/* ── BURGER ── */
+.burger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:4px; background:none; border:none; }
+.burger span { display:block; width:24px; height:2px; background:var(--text); border-radius:2px; transition:var(--transition); }
+.burger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+.burger.open span:nth-child(2) { opacity:0; transform:scaleX(0); }
+.burger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+.mobile-nav { display:none; position:fixed; inset:0; background:var(--mobile-nav-bg); z-index:999; flex-direction:column; align-items:center; justify-content:center; gap:5px; transform:translateX(100%); transition:transform 0.4s cubic-bezier(0.4,0,0.2,1); }
+.mobile-nav.open { transform:translateX(0); }
+.mobile-nav a { font-family:var(--font-display); font-size:1.8rem; font-weight:700; color:var(--text-muted); text-decoration:none; padding:6px 0; transition:color 0.2s; }
+.mobile-nav a:hover { color:var(--blue); }
+
+/* ── LAYOUT ── */
+section { padding:92px 0; }
+.container { max-width:1280px; margin:0 auto; padding:0 40px; }
+.section-label { font-size:0.70rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; background:var(--grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:13px; display:flex; align-items:center; gap:9px; }
+.section-label::before { content:''; display:block; width:16px; height:2px; background:var(--grad); border-radius:1px; flex-shrink:0; -webkit-text-fill-color:initial; }
+h1,h2,h3,h4 { font-family:var(--font-display); font-weight:700; line-height:1.15; color:var(--text); }
+h1 { font-size:clamp(2.2rem,5vw,4.4rem); letter-spacing:-0.03em; }
+h2 { font-size:clamp(1.65rem,3vw,2.6rem); letter-spacing:-0.02em; }
+h3 { font-size:1.28rem; }
+h4 { font-size:1.02rem; }
+.text-accent { background:var(--grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+
+/* ── PAGE HERO (ішкі беттер) ── */
+.page-hero { padding:130px 0 64px; position:relative; overflow:hidden; }
+.page-hero-bg { position:absolute; inset:0; background:radial-gradient(ellipse 60% 60% at 50% 0%,rgba(30,107,230,0.06) 0%,transparent 70%); }
+.page-hero h1 { font-size:clamp(1.8rem,3.6vw,3rem); margin-bottom:11px; }
+.page-hero p { color:var(--text-muted); max-width:540px; font-size:0.98rem; }
+
+/* ── CTA БЛОГЫ ── */
+.cta-block { background:var(--surface); border:1px solid var(--border); border-radius:22px; padding:52px; text-align:center; backdrop-filter:blur(10px); box-shadow:var(--shadow-card); }
+
+/* ── FOOTER ── */
+footer { background:var(--footer-bg); border-top:1px solid var(--border); padding:48px 0 24px; margin-top:40px; backdrop-filter:blur(12px); }
+.footer-inner { display:grid; grid-template-columns:2fr 1fr 1fr; gap:48px; margin-bottom:28px; }
+.footer-brand p { color:var(--text-muted); font-size:0.86rem; margin-top:11px; max-width:240px; }
+.footer-col h4 { font-size:0.76rem; font-weight:700; text-transform:uppercase; letter-spacing:0.10em; margin-bottom:14px; color:var(--text-muted); }
+.footer-col a { display:block; color:var(--text-muted); text-decoration:none; font-size:0.86rem; margin-bottom:8px; transition:color 0.2s; }
+.footer-col a:hover { color:var(--blue); }
+.footer-bottom { border-top:1px solid var(--border); padding-top:18px; display:flex; justify-content:space-between; align-items:center; color:var(--text-muted); font-size:0.74rem; }
+
+/* ── REVEAL АНИМАЦИЯ ── */
+.reveal { opacity:0; transform:translateY(24px); transition:opacity 0.60s ease, transform 0.60s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+.reveal-delay-1 { transition-delay:0.10s; }
+.reveal-delay-2 { transition-delay:0.20s; }
+.reveal-delay-3 { transition-delay:0.30s; }
+
+/* ── MODAL (галерея + бейне) ── */
+.gallery-overlay { display:none; position:fixed; inset:0; z-index:2000; background:rgba(0,0,0,0.78); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:16px; }
+.gallery-overlay.open { display:flex; animation:fadeIn 0.22s ease both; }
+@keyframes fadeIn { from{opacity:0}to{opacity:1} }
+.gallery-modal { background:var(--surface-strong); border:1px solid var(--border); border-radius:22px; box-shadow:0 32px 100px rgba(0,0,0,0.35); width:100%; max-width:880px; max-height:90vh; overflow:hidden; display:flex; flex-direction:column; animation:slideUp 0.28s cubic-bezier(0.4,0,0.2,1) both; }
+@keyframes slideUp { from{transform:translateY(35px);opacity:0}to{transform:translateY(0);opacity:1} }
+.gallery-header { padding:22px 26px 16px; border-bottom:1px solid var(--border); display:flex; align-items:flex-start; justify-content:space-between; gap:14px; flex-shrink:0; }
+.gallery-date { font-size:0.74rem; color:var(--blue); font-weight:600; margin-bottom:4px; }
+.gallery-header h2 { font-size:1.25rem; margin-bottom:6px; }
+.gallery-header p { color:var(--text-muted); font-size:0.86rem; max-width:560px; line-height:1.5; }
+.gallery-close { width:34px; height:34px; border-radius:9px; background:var(--surface); border:1px solid var(--border); cursor:pointer; display:flex; align-items:center; justify-content:center; color:var(--text-muted); font-size:1.1rem; flex-shrink:0; transition:var(--transition); }
+.gallery-close:hover { background:var(--glow); color:var(--text); }
+.gallery-body { overflow-y:auto; padding:20px 26px 26px; flex:1; }
+.gallery-main-photo { width:100%; aspect-ratio:16/9; border-radius:12px; overflow:hidden; margin-bottom:12px; background:var(--surface); border:1px solid var(--border); }
+.gallery-main-photo img { width:100%; height:100%; object-fit:cover; display:block; }
+.gallery-nav { display:flex; align-items:center; justify-content:center; gap:10px; margin:10px 0 14px; }
+.gallery-nav-btn { width:36px; height:36px; border-radius:50%; background:var(--surface); border:1px solid var(--border); cursor:pointer; display:flex; align-items:center; justify-content:center; color:var(--text-muted); transition:var(--transition); }
+.gallery-nav-btn:hover { background:var(--glow); border-color:var(--blue); color:var(--blue); }
+.gallery-nav-btn svg { width:14px; height:14px; }
+.gallery-count { text-align:center; font-size:0.75rem; color:var(--text-muted); }
+.gallery-thumbs { display:grid; grid-template-columns:repeat(auto-fill,minmax(105px,1fr)); gap:7px; }
+.gallery-thumb { aspect-ratio:4/3; border-radius:9px; overflow:hidden; cursor:pointer; border:2px solid transparent; transition:var(--transition); }
+.gallery-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.gallery-thumb:hover,.gallery-thumb.active { border-color:var(--blue); }
+.video-player-overlay { display:none; position:fixed; inset:0; z-index:3000; background:rgba(0,0,0,0.92); align-items:center; justify-content:center; padding:20px; }
+.video-player-overlay.open { display:flex; animation:fadeIn 0.2s ease both; }
+.video-player-modal { width:100%; max-width:960px; background:#000; border-radius:18px; overflow:hidden; box-shadow:0 40px 120px rgba(0,0,0,0.8); }
+.video-player-top { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; background:rgba(255,255,255,0.06); border-bottom:1px solid rgba(255,255,255,0.08); }
+.video-player-top span { color:rgba(255,255,255,0.6); font-size:.82rem; }
+.video-player-close { width:32px; height:32px; border-radius:8px; background:rgba(255,255,255,0.10); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.7); font-size:1.1rem; transition:background 0.2s; }
+.video-player-close:hover { background:rgba(255,255,255,0.20); color:#fff; }
+.video-player-frame { position:relative; width:100%; padding-bottom:56.25%; background:#000; }
+.video-player-frame iframe { position:absolute; inset:0; width:100%; height:100%; border:none; }
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  .footer-inner { grid-template-columns:1fr 1fr; }
+}
+@media(max-width:768px){
+  .container { padding:0 18px; }
+  .header-inner { padding:0 18px; }
+  nav,.header-cta,.header-controls { display:none; }
+  .burger { display:flex; }
+  .mobile-nav { display:flex; }
+  section { padding:52px 0; }
+  .page-hero { padding:92px 0 48px; }
+  .footer-inner { grid-template-columns:1fr; gap:24px; }
+  .footer-bottom { flex-direction:column; gap:5px; text-align:center; }
+  .gallery-thumbs { grid-template-columns:repeat(auto-fill,minmax(78px,1fr)); }
+  .gallery-header { padding:16px; }
+  .gallery-body { padding:14px 16px 18px; }
+}
+</style>
+<style>
+/* ── HERO ── */
+.hero { min-height:100vh; display:flex; align-items:center; position:relative; overflow:hidden; padding-top:80px; }
+.hero-bg { position:absolute; inset:0; background:radial-gradient(ellipse 65% 55% at 60% 12%,rgba(74,181,245,0.16) 0%,transparent 58%),radial-gradient(ellipse 45% 65% at 8% 80%,rgba(107,77,230,0.12) 0%,transparent 58%); }
+.hero-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(30,107,230,0.033) 1px,transparent 1px),linear-gradient(90deg,rgba(30,107,230,0.033) 1px,transparent 1px); background-size:54px 54px; mask-image:radial-gradient(ellipse 90% 90% at 50% 50%,black 40%,transparent 100%); }
+.hero-content { position:relative; z-index:1; max-width:700px; }
+.hero-badge { display:inline-flex; align-items:center; gap:7px; padding:6px 15px; background:var(--surface); border:1.5px solid var(--border); border-radius:100px; font-size:0.77rem; font-weight:600; color:var(--blue); margin-bottom:24px; backdrop-filter:blur(8px); }
+.hero-badge-dot { width:6px; height:6px; background:var(--blue); border-radius:50%; animation:pulse 1.8s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.4);opacity:0.6;} }
+.hero h1 { margin-bottom:18px; }
+.hero h1 .line { display:block; }
+.hero p { font-size:1.06rem; color:var(--text-muted); max-width:500px; margin-bottom:32px; }
+.hero-buttons { display:flex; gap:11px; flex-wrap:wrap; }
+.hero-orbs { position:absolute; right:-40px; top:50%; transform:translateY(-50%); width:500px; height:500px; pointer-events:none; }
+.orb { position:absolute; border-radius:50%; filter:blur(72px); animation:float 9s ease-in-out infinite; }
+.orb-1 { width:250px; height:250px; background:rgba(30,107,230,0.12); top:8%; left:6%; }
+.orb-2 { width:185px; height:185px; background:rgba(107,77,230,0.14); bottom:8%; right:8%; animation-delay:-3s; }
+.orb-3 { width:125px; height:125px; background:rgba(74,181,245,0.14); top:45%; left:35%; animation-delay:-6s; }
+@keyframes float { 0%,100%{transform:translateY(0) scale(1);}33%{transform:translateY(-25px) scale(1.04);}66%{transform:translateY(15px) scale(0.97);} }
+
+/* ── АРТЫҚШЫЛЫҚТАР КАРТОЧКАЛАРЫ ── */
+.features-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(255px,1fr)); gap:17px; margin-top:48px; }
+.feature-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-card); backdrop-filter:blur(10px); padding:28px; transition:var(--transition); }
+.feature-card:hover { background:var(--surface-hover); box-shadow:var(--shadow-hover); transform:translateY(-5px); border-color:var(--border-strong); }
+.feature-icon { width:46px; height:46px; background:var(--grad-soft); border:1px solid var(--border); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.35rem; margin-bottom:16px; }
+.feature-card h3 { margin-bottom:8px; font-size:1.08rem; }
+.feature-card p { color:var(--text-muted); font-size:0.86rem; }
+
+@media(max-width:768px){
+  .features-grid { grid-template-columns:1fr; }
+}
+</style>
+  
+</head>
+<body>
+<div class="site-bg"></div>
+<div class="site-bg-overlay"></div>
+<!-- ВИДЕО ОЙНАТҚЫШ -->
+<div class="video-player-overlay" id="videoPlayerOverlay">
+  <div class="video-player-modal">
+    <div class="video-player-top">
+      <span>GALYM AI — бейне</span>
+      <button class="video-player-close" id="videoPlayerClose">✕</button>
+    </div>
+    <div class="video-player-frame">
+      <iframe id="videoIframe" src="" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
+</div>
+<!-- ГАЛЕРЕЯ МОДАЛЫ -->
+<div class="gallery-overlay" id="galleryOverlay">
+  <div class="gallery-modal">
+    <div class="gallery-header">
+      <div class="gallery-header-text">
+        <div class="gallery-date" id="galleryDate"></div>
+        <h2 id="galleryTitle"></h2>
+        <p id="galleryText"></p>
+      </div>
+      <button class="gallery-close" id="galleryCloseBtn">✕</button>
+    </div>
+    <div class="gallery-body">
+      <div id="galleryVideos"></div>
+      <div id="galleryPhotoSection">
+        <div class="gallery-main-photo"><img id="galleryMainImg" src="" alt=""></div>
+        <div class="gallery-nav">
+          <button class="gallery-nav-btn" id="galleryPrevBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <span class="gallery-count" id="galleryCount"></span>
+          <button class="gallery-nav-btn" id="galleryNextBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+        </div>
+        <div class="gallery-thumbs" id="galleryThumbs"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <img src="logo.jpg" alt="GALYM AI" class="logo-img">
+      <span class="logo-text">GALYM<span>AI</span></span>
+    </a>
+    <nav>
+      <a href="index.html">Басты бет</a>
+      <a href="about.html">Біз туралы</a>
+      <a href="courses.html">Курстар</a>
+      <a href="program.html">Бағдарлама</a>
+      <a href="teachers.html">Оқытушылар</a>
+      <a href="news.html">Жаңалықтар</a>
+      <a href="contacts.html">Байланыс</a>
+      <a href="#" onclick="openFeedbackForm(event)">Кері байланыс</a>
+    </nav>
+    <div class="header-controls">
+      <a href="courses.html" class="btn btn-primary header-cta">Жазылу</a>
+    </div>
+    <button class="burger" aria-label="Мәзір"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="mobile-nav">
+  <a href="index.html">Басты бет</a>
+  <a href="about.html">Біз туралы</a>
+  <a href="courses.html">Курстар</a>
+  <a href="program.html">Бағдарлама</a>
+  <a href="teachers.html">Оқытушылар</a>
+  <a href="news.html">Жаңалықтар</a>
+  <a href="contacts.html">Байланыс</a>
+  <a href="#" onclick="openFeedbackForm(event)">Кері байланыс</a>
+</div>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        Жаңа буын білім беру клубы
+      </div>
+      <h1>
+        <span class="line">Үйрен. Жасай.</span>
+        <span class="line"><span class="text-accent">Болашақта бол.</span></span>
+      </h1>
+      <p>GALYM AI — технологиялар мен білім бірігетін клуб.</p>
+      <div class="hero-buttons">
+        <a href="courses.html" class="btn btn-primary btn-large">Курсты таңдау</a>
+        <a href="about.html"   class="btn btn-outline btn-large">Толығырақ</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-label">Неліктен біз</div>
+    <h2>GALYM AI артықшылықтары</h2>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon">🚀</div>
+        <h3>Практикалық тәсіл</h3>
+        <p>Нақты жобалар арқылы оқыту.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-icon">🤖</div>
+        <h3>Заманауи технологиялар</h3>
+        <p>ЖИ, машиналық оқыту, робототехника.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-icon">👨‍🏫</div>
+        <h3>Тәжірибелі тәлімгерлер</h3>
+        <p>Нақты тәжірибесі бар оқытушылар.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-3">
+        <div class="feature-icon">🏆</div>
+        <h3>Сертификаттар</h3>
+        <p>Сіздің құзыреттіліктеріңіздің растамасы.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="container">
+    <div class="cta-block reveal" style="text-align:center">
+      <div class="section-label" style="justify-content:center">Бүгін бастаңыз</div>
+      <h2 style="margin-bottom:14px">Жаңа білімге дайынсыз ба?</h2>
+      <p style="color:var(--text-muted);max-width:480px;margin:0 auto 28px">GALYM AI-ға қосылып, технологиялар әлемін ашыңыз.</p>
+      <a href="courses.html" class="btn btn-primary btn-large">Курстарды қарау</a>
+    </div>
+  </div>
+</section>
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">
+          <img src="logo.jpg" alt="GALYM AI" class="logo-img">
+          <span class="logo-text">GALYM<span>AI</span></span>
+        </a>
+        <p>Ақтөбедегі жаңа буын білім беру клубы.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Навигация</h4>
+        <a href="about.html">Біз туралы</a>
+        <a href="courses.html">Курстар</a>
+        <a href="program.html">Бағдарлама</a>
+        <a href="teachers.html">Оқытушылар</a>
+        <a href="news.html">Жаңалықтар</a>
+      </div>
+      <div class="footer-col">
+        <h4>Байланыс</h4>
+        <a href="contacts.html">Мекенжай</a>
+        <a href="mailto:info@galym-ai.kz">info@galym-ai.kz</a>
+        <a href="tel:+77001234567">+7 700 123 45 67</a>
+        <a href="#" onclick="openFeedbackForm(event)">Кері байланыс</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 GALYM AI. Барлық құқықтар қорғалған.</span>
+      <span>Ақтөбе, Қазақстан</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── HEADER SCROLL ──
+window.addEventListener('scroll', () => {
+  document.querySelector('header')?.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// ── BURGER MENU ──
+document.addEventListener('DOMContentLoaded', () => {
+  const burger = document.querySelector('.burger');
+  const mobileNav = document.querySelector('.mobile-nav');
+  burger?.addEventListener('click', () => {
+    burger.classList.toggle('open');
+    mobileNav?.classList.toggle('open');
+  });
+  mobileNav?.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      burger?.classList.remove('open');
+      mobileNav?.classList.remove('open');
+    });
+  });
+
+  // Active nav link
+  const page = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('nav a, .mobile-nav a').forEach(a => {
+    if (a.getAttribute('href') === page) a.classList.add('active');
+  });
+
+  // Scroll reveal
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.09 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // Background image
+  const bg = document.querySelector('.site-bg');
+  if (bg) {
+    const img = new Image();
+    img.src = 'bg.png';
+    img.onload = () => bg.style.backgroundImage = "url('bg.png')";
+  }
+
+  // Gallery close
+  const go = document.getElementById('galleryOverlay');
+  if (go) {
+    go.addEventListener('click', e => { if(e.target===go) closeGallery(); });
+    document.getElementById('galleryCloseBtn')?.addEventListener('click', closeGallery);
+    document.getElementById('galleryPrevBtn')?.addEventListener('click', () => moveGallery(-1));
+    document.getElementById('galleryNextBtn')?.addEventListener('click', () => moveGallery(1));
+  }
+
+  // Video player close
+  document.getElementById('videoPlayerClose')?.addEventListener('click', closeVideo);
+  document.getElementById('videoPlayerOverlay')?.addEventListener('click', e => {
+    if(e.target===document.getElementById('videoPlayerOverlay')) closeVideo();
+  });
+
+  document.addEventListener('keydown', e => {
+    if(e.key==='Escape'){ closeGallery(); closeVideo(); }
+    if(e.key==='ArrowLeft')  moveGallery(-1);
+    if(e.key==='ArrowRight') moveGallery(1);
+  });
+});
+
+// ── FEEDBACK FORM ──
+function openFeedbackForm(e) {
+  if(e) e.preventDefault();
+  // ← МУНДАй Google Forms сілтемесін қойыңыз
+  window.open('https://forms.google.com/example', '_blank');
+}
+
+// ── GALLERY ──
+let _photos = [], _idx = 0;
+function openGallery(photos, title, date, text) {
+  _photos = photos || []; _idx = 0;
+  document.getElementById('galleryDate').textContent  = date  || '';
+  document.getElementById('galleryTitle').textContent = title || '';
+  document.getElementById('galleryText').textContent  = text  || '';
+  const thumbs = document.getElementById('galleryThumbs');
+  if (thumbs) {
+    thumbs.innerHTML = _photos.map((src,i) =>
+      `<div class="gallery-thumb${i===0?' active':''}" data-i ct="${i}" onclick="setPhoto(${i})">
+         <img src="${src}" alt="" loading="lazy">
+       </div>`
+    ).join('');
+  }
+  const vs = document.getElementById('galleryVideos');
+  if(vs) { vs.innerHTML=''; vs.style.display='none'; }
+  const ps = document.getElementById('galleryPhotoSection');
+  if(ps) ps.style.display = _photos.length ? 'block' : 'none';
+  if(_photos.length) showPhoto(0);
+  document.getElementById('galleryOverlay')?.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeGallery() {
+  document.getElementById('galleryOverlay')?.classList.remove('open');
+  document.body.style.overflow = '';
+}
+function setPhoto(i) {
+  _idx = (i + _photos.length) % _photos.length;
+  showPhoto(_idx);
+}
+function moveGallery(dir) { setPhoto(_idx + dir); }
+function showPhoto(i) {
+  const img = document.getElementById('galleryMainImg');
+  if(img) { img.style.opacity='0'; img.src=_photos[i]; img.onload=()=>img.style.opacity='1'; img.style.transition='opacity 0.25s'; }
+  const cnt = document.getElementById('galleryCount');
+  if(cnt) cnt.textContent = `${i+1} / ${_photos.length}`;
+  document.querySelectorAll('.gallery-thumb').forEach((t,j)=>t.classList.toggle('active',j===i));
+}
+
+// ── VIDEO PLAYER ──
+function openVideoPlayer(url) {
+  const iframe = document.getElementById('videoIframe');
+  if(!iframe) return;
+  let embed = url.replace('watch?v=','embed/').replace('youtu.be/','www.youtube.com/embed/');
+  if(!embed.includes('youtube.com/embed/')) embed = url;
+  iframe.src = embed + (embed.includes('?')?'&':'?') + 'autoplay=1&rel=0';
+  document.getElementById('videoPlayerOverlay')?.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeVideo() {
+  document.getElementById('videoPlayerOverlay')?.classList.remove('open');
+  const f = document.getElementById('videoIframe'); if(f) f.src='';
+  document.body.style.overflow='';
+}
+</script>
+</body>
+</html>
