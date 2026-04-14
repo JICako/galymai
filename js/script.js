@@ -149,3 +149,64 @@ function closeVideo() {
   if (f) f.src = '';
   document.body.style.overflow = '';
 }
+
+// ── ЖИ-ҚҰРАЛДАР (extras.html) ──
+function renderAiTools() {
+  const grid = document.getElementById('aiToolsGrid');
+  if (!grid || typeof SITE_CONTENT === 'undefined' || !SITE_CONTENT.aiTools) return;
+
+  const freeLabel = 'Тегін';
+  const paidLabel = 'Ақылы';
+
+  grid.innerHTML = SITE_CONTENT.aiTools.map((tool, i) => {
+    const delay = (i % 4) > 0 ? ` reveal-delay-${i % 4}` : '';
+    return `
+    <div class="ai-tool-card reveal${delay}" data-free="${tool.free}" data-cats="${tool.category || 'text'}">
+      <div class="ai-tool-header">
+        <div class="ai-tool-icon" style="background:${tool.color}22;border:1.5px solid ${tool.color}44">
+          <span style="font-size:1.6rem">${tool.emoji}</span>
+        </div>
+        <div>
+          <div class="ai-tool-name">${tool.name}</div>
+          <div class="ai-tool-company">${tool.company}</div>
+        </div>
+        <span class="ai-tool-badge" style="${tool.free
+          ? 'background:rgba(16,163,127,0.10);color:#10A37F;border-color:rgba(16,163,127,0.22)'
+          : 'background:rgba(107,77,230,0.10);color:#6B4DE6;border-color:rgba(107,77,230,0.22)'}">
+          ${tool.free ? freeLabel : paidLabel}
+        </span>
+      </div>
+      <p class="ai-tool-desc">${tool.desc || tool.descKz || tool.descRu || ''}</p>
+      <div class="ai-tool-footer">
+        <span class="ai-tool-tags">${tool.tag || tool.tagKz || tool.tagRu || ''}</span>
+        <a href="${tool.url}" target="_blank" rel="noopener" class="btn btn-primary" style="font-size:.78rem;padding:7px 14px">
+          Ашу ↗
+        </a>
+      </div>
+    </div>`;
+  }).join('');
+
+  // reveal observer қайта іске қос
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.09 });
+  grid.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+}
+
+// filter tabs
+document.addEventListener('DOMContentLoaded', () => {
+  renderAiTools();
+
+  document.querySelectorAll('.filter-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const f = tab.dataset.filter;
+      document.querySelectorAll('.ai-tool-card').forEach(card => {
+        if (f === 'all')  { card.style.display = ''; return; }
+        if (f === 'free') { card.style.display = card.dataset.free === 'true' ? '' : 'none'; return; }
+        card.style.display = card.dataset.cats === f ? '' : 'none';
+      });
+    });
+  });
+});

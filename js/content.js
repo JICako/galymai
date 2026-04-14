@@ -54,7 +54,7 @@ const SITE_CONTENT = {
       duration:    "3",     // ← месяцев
       age:         "7–11",
       lessons:     "24",
-      formUrl:     "https://forms.google.com/example",   // ← ссылка на запись
+      formUrl:     "https://forms.gle/MmXJq5p6Q1f55JbM8",   // ← ссылка на запись
     },
     {
       number:      "02",
@@ -64,7 +64,7 @@ const SITE_CONTENT = {
       duration:    "4",
       age:         "12–16",
       lessons:     "32",
-      formUrl:     "https://forms.google.com/example",
+      formUrl:     "https://forms.gle/MmXJq5p6Q1f55JbM8",
     },
     {
       number:      "03",
@@ -74,7 +74,7 @@ const SITE_CONTENT = {
       duration:    "5",
       age:         "13–17",
       lessons:     "40",
-      formUrl:     "https://forms.google.com/example",
+      formUrl:     "https://forms.gle/MmXJq5p6Q1f55JbM8",
     },
     {
       number:      "04",
@@ -84,7 +84,7 @@ const SITE_CONTENT = {
       duration:    "6",
       age:         "14–18",
       lessons:     "48",
-      formUrl:     "https://forms.google.com/example",
+      formUrl:     "https://forms.gle/MmXJq5p6Q1f55JbM8",
     },
     {
       number:      "05",
@@ -94,7 +94,7 @@ const SITE_CONTENT = {
       duration:    "5",
       age:         "11–16",
       lessons:     "36",
-      formUrl:     "https://forms.google.com/example",
+      formUrl:     "https://forms.gle/MmXJq5p6Q1f55JbM8",
     },
     {
       number:      "06",
@@ -104,7 +104,7 @@ const SITE_CONTENT = {
       duration:    "6",
       age:         "13–18",
       lessons:     "48",
-      formUrl:     "https://forms.google.com/example",
+      formUrl:     "https://forms.gle/MmXJq5p6Q1f55JbM8",
     },
   ],
 
@@ -328,6 +328,46 @@ SITE_CONTENT.events = [
 SITE_CONTENT.aiTools = [
 
   // ── ЧАТ / ТЕКСТ ──────────────────────────────────────
+  {
+  name: "Manus AI", company: "Manus", category: "automation", emoji: "🤖", color: "#4A90E2", free: false,
+  desc: "Автоматизирует задачи как чертов босс: ресерч, отчёты, код — делает сам, ты просто даёшь команду.",
+  url: "https://manus.ai",
+  },
+  {
+    name: "Flow", company: "Flow AI", category: "productivity", emoji: "🌊", color: "#6C5CE7", free: true,
+    desc: "Помогает держать фокус и не тупить: задачи, процессы, всё в одном месте без хаоса.",
+    url: "https://flow.ai",
+  },
+  {
+    name: "Grok", company: "xAI", category: "text", emoji: "😈", color: "#000000", free: false,
+    desc: "ИИ с характером: отвечает дерзко, шарит за тренды и не строит из себя святого.",
+    url: "https://grok.x.ai",
+  },
+  {
+    name: "Xmind", company: "Xmind", category: "mindmap", emoji: "🧩", color: "#F5A623", free: true,
+    desc: "Делает из каши в голове норм структуру: майнд-карты, идеи, планы — всё по полочкам.",
+    url: "https://xmind.app",
+  },
+  {
+    name: "Teachshare", company: "Teachshare", category: "education", emoji: "📚", color: "#2ECC71", free: true,
+    desc: "Платформа для преподов: делишься материалами, строишь уроки и не паришься с организацией.",
+    url: "https://teachshare.com",
+  },
+  {
+    name: "Kimi", company: "Moonshot AI", category: "text", emoji: "🧠", color: "#00B894", free: true,
+    desc: "Китайский зверь для работы с длинными текстами: переваривает огромные документы без лагов.",
+    url: "https://kimi.moonshot.cn",
+  },
+  {
+    name: "Suno", company: "Suno AI", category: "music", emoji: "🎵", color: "#E84393", free: true,
+    desc: "Делаешь трек с нуля за пару минут — текст, бит, вокал. Музыка на халяву почти.",
+    url: "https://suno.ai",
+  },
+  {
+    name: "ClassDojo", company: "ClassDojo", category: "education", emoji: "🏫", color: "#8E44AD", free: true,
+    desc: "Контроль класса без нервов: оценки, поведение, связь с родителями — всё в одном месте.",
+    url: "https://classdojo.com",
+  },
   {
     name: "Claude", company: "Anthropic", category: "text", emoji: "🧠", color: "#CC785C", free: true,
     desc: "Күрделі ғылыми мәтіндер мен үлкен көлемді құжаттарды терең талдап, жоғары сапалы академиялық контент дайындайды.",
